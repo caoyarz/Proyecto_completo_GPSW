@@ -1,0 +1,55 @@
+<?php
+require __DIR__ . '/../config/database.php';
+session_start();
+
+var_dump($_SESSION);
+function bouncer()
+	{
+		if (!isset($_SESSION['user_id']))
+			{
+				return TRUE;
+			}
+		return FALSE;
+	}
+$rol = $_SESSION['user_id'];
+function rutEsPaciente()
+	{
+		if ($_SESSION['tipo_usuario'] == 'Paciente')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+function rutEsTecLab()
+	{
+		if ($_SESSION['tipo_usuario'] == 'Tecnico')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+function rutEsTecnologo()
+	{
+		if ($_SESSION['tipo_usuario'] == 'Tecnologo')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+
+function rutEsSecretaria()
+	{
+		if ($_SESSION['tipo_usuario'] == 'Secretaraia')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+?>

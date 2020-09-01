@@ -1,0 +1,72 @@
+<?php
+require __DIR__ . '/../config/database.php';
+session_start();
+
+function bouncer()
+	{
+		if (!isset($_SESSION['user_id']))
+			{
+				return TRUE;
+			}
+		return FALSE;
+	}
+$rol = $_SESSION['user_id'];
+function rutEsPaciente($rut,$conn)
+	{
+		if ($_SESSION['tipo_usuario'] == 'Paciente')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+function rutEsTecLab($rut,$conn)
+	{
+		if ($_SESSION['tipo_usuario'] == 'Tecnico')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+function rutEsTecnologo($rut,$conn)
+	{
+		if ($_SESSION['tipo_usuario'] == 'Tecnologo')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+
+
+function rutEsSecretaria($rut,$conn)
+	{
+		if ($_SESSION['tipo_usuario'] == 'Secretaraia')
+			{
+				return true;
+			}
+		else return false;
+	}
+
+function rutEsUsuario($rut,$conn)
+	{
+		if (rutEsCliente($rut,$conn)||
+			rutEsSecretaria($rut,$conn)||
+			rutEsTecLab($rut,$conn)||
+			rutEsTecnologo($rut,$conn))
+		return TRUE;
+		else return FALSE;
+	}
+	
+function rutEsFuncionario($rut,$conn)
+	{
+		if (rutEsSecretaria($rut,$conn)||
+			rutEsTecLab($rut,$conn)||
+			rutEsTecnologo($rut,$conn))
+		return TRUE;
+		else return FALSE;
+	}
+?>

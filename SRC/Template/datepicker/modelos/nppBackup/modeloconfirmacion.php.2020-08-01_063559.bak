@@ -1,0 +1,20 @@
+<?php
+require __DIR__ . '/../config/database.php';
+
+
+function getSolicitudes($conn)
+	{
+		$sql = "SELECT  SGL_PACIENTE_RUT AS rut,
+						SGL_PACIENTE_NOMBRES AS nombres, 
+						SGL_PACIENTE_APELLIDOS AS apellidos,
+						SGL_PACIENTE_CORREO AS correo,
+						SGL_CITA_IDENTIFICADOR AS id,
+						SGL_CITA_HORA AS hora,
+						SGL_CITA_MEDICO_SOLICITANTE AS medico,
+						SGL_EXAMEN_NOMBRE AS examen
+				FROM SGL_CITA CITA JOIN SGL_PACIENTE
+				WHERE DATE(SGL_CITA_HORA) = DATE('".$fecha."')";
+		
+		
+	}
+?>

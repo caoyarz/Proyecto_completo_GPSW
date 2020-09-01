@@ -1,0 +1,15 @@
+function loadHoras()
+	{
+		var fecha = document.getElementByName("agenda")[0].value;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
+		{
+		if (this.readyState == 4 && this.status == 200) {
+							document.getElementById("agenda").innerHTML = this.responseText;
+														}
+		}
+			xhttp.open("POST", "getHorasDisponibles.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("fecha="+fecha);
+		
+	}

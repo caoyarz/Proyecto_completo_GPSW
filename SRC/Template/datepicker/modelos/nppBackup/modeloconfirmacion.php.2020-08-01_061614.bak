@@ -1,0 +1,12 @@
+<?php
+require __DIR__ . '/../config/database.php';
+
+
+function getSolicitudes($conn)
+	{
+		$sql = "SELECT SGL_CITA_HORA AS hora, SGL_CITA_ESTADO AS estado
+				FROM SGL_CITA
+				WHERE DATE(SGL_CITA_HORA) = DATE('".$fecha."')";
+		
+	}
+?>

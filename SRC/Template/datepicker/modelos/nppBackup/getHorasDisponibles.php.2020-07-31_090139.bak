@@ -1,0 +1,40 @@
+<?php
+ $fecha = $_REQUEST['fecha'];
+ echo $stringFecha = $fecha->format('Y-m-d H:i:s');
+
+ $sql = "SELECT HOUR(SGL_CITA_HORA) AS hora FROM SGL_CITA WHERE DATE(SGL_CITA_HORA) = :fecha"
+ $execute = $conn->prepare($sql);
+ $execute->bindParam(':fecha', $fecha);
+	if ($execute->execute())
+		{
+			$data = $execute->fetchAll();
+		}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+ $horastomadas = array();
+ $horasdominio = array(
+						8,9,10,11,12,13,14,15,16,17,18
+						);
+ for each $data as $row
+	{
+		array_push($horastomadas,$row['hora']);
+	}
+ for each $horasdominio as $horadom
+	{
+		for each $horastomadas as $horataken
+		{
+			if ($horadom == $horataken)
+				unset($horasdominio[$horadom];
+		}
+	}
+	if(!empty($horasdominio))
+	{
+		$opcionesHora = "";
+		foreach ($horasdominio as $hora) 
+			{
+		$opcionesHora .= "<option value='" . 
+						$hora['id'] . "' title='". 
+						$row['tooltip'] . "'>" . 
+						$row['examen'] . "</option> \n"
+			}
+	}
+ ?>

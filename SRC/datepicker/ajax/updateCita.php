@@ -1,0 +1,10 @@
+	<?php
+require __DIR__ . '/../config/database.php';	
+$id = $_REQUEST['id'];
+$tecrut = $_REQUEST['tecid'];
+$sql = "UPDATE SGL_CITA
+SET SGL_TECNOLOGO_RUT = '".$tecrut."', SGL_CITA_ESTADO = 'Reservada'
+WHERE SGL_CITA_IDENTIFICADOR =".$id.";";
+$execute = $conn->prepare($sql);
+$execute->execute();
+?>

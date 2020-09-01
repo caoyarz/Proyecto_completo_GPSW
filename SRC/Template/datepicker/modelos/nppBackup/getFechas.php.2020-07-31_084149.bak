@@ -1,0 +1,39 @@
+<?php
+ $fecha = $_REQUEST['fecha'];
+ $sql = "SELECT HOUR(SGL_CITA_HORA) AS hora FROM SGL_CITA WHERE DATE(SGL_CITA_HORA) = :fecha"
+ $execute = $conn->prepare($sql);
+ $execute->bindParam(':fecha', $fecha);
+	if ($execute->execute())
+		{
+			$data = $execute->fetchAll();
+		}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+		
+ ?>
+ <div class="row">
+ <?php
+ if($stmt->rowCount() > 0){
+  
+  while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+  {
+   extract($row);
+ 
+   ?>
+   <div class="col-xs-3">
+   <div style="border-radius:3px; border:#cdcdcd solid 1px; padding:22px;"><?php echo $product_name; ?></div><br />
+   </div>
+   <?php  
+  }
+  
+ }else{
+  
+  ?>
+        <div class="col-xs-3">
+   <div style="border-radius:3px; border:#cdcdcd solid 1px; padding:22px;"><?php echo $product_name; ?></div><br />
+  </div>
+        <?php  
+ }
+ 
+ 
+ ?>
+ </div>

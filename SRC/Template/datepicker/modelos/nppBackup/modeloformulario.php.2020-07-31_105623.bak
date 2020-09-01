@@ -1,0 +1,68 @@
+<?php
+$server = 'mysqltrans.face.ubiobio.cl';
+$username = 'G1gestions2';
+$password = 'G1s2gestion20-1';
+$database = 'G1s2gestion_bd';
+
+try {
+  $conn = new PDO("mysql:host=$server;dbname=$database;", $username, $password);
+} catch (PDOException $e) {
+  die('Connection Failed: ' . $e->getMessage());
+}	
+var_dump($conn);
+function getExamenes()
+	{
+		$sql = "SELECT SGL_EXAMEN_IDENTIFICADOR AS id, 
+				SGL_EXAMEN_INSTRUCCIONES AS tooltip, 
+				SGL_EXAMEN_NOMBRE AS examen 
+				FROM SGL_EXAMEN";
+		$execute = $conn->prepare($sql);
+		if ($execute->execute())
+			{
+				return $execute->fetchAll();
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+function drawExamenOpciones($data)
+	{
+		$OpcionesHTML = "";
+		foreach ($data as $row) 
+			{
+		$OpcionesHTML .= "<option value='" . 
+						$row['id'] . "' title='". 
+						$row['tooltip'] . "'>" . 
+						$row['examen'] . "</option> \n";
+			}
+		return $OpcionesHTML;
+	}
+
+
+	
+function drawExamenDropdown()
+	{
+		$DropdownHTML = "";
+		$DropdownHTML .= '<label for="examen">Examen:</label> \n
+						 <select id="examen-dropdown" name="examen"> \n';
+		$DropdownHTML .='<option selected value="base">Seleccione examen deseado...</option>';
+		$DropdownHTML .= drawExamenOpciones(getExamenes());
+		$DropdownHTML .= '\n </select>';
+		return $DropdownHTML;
+	}
+
+function drawDatepicker()
+	{
+		$today = date('Y-m-d',time());
+//<input type="date" name="cumpleanios" step="1" min="2013-01-01" max="2013-12-31" value="<?php echo date("Y-m-d");">
+		$DateHTML = "";
+		$DateHTML .= '<label for="agenda">Consultar disponibilidad de fecha deseada</label> \n';
+		$DateHTML .= '<input type ="date" ';
+		$DateHTML .= 'name="agenda" ';
+		$DateHTML .= 'step="1" ';
+		$DateHTML .= 'min="';
+		$DateHTML .= $today->format('Y-m-d');
+		$DateHTML .= '" value="';
+		$DateHTML .= $today->format('Y-m-d');
+		$DateHTML .= '">';
+	}
+?>

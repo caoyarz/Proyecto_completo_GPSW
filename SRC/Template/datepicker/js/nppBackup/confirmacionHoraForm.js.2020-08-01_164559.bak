@@ -1,0 +1,67 @@
+var validationTecnologo = false;
+
+document.getElementByClassName("btn-confirma").addEventListener("click", function()
+	{
+		var idrequest = parseInt(this.dataset.id);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
+		{
+		if (this.readyState == 4 && this.status == 200) {
+							document.getElementById("hora").innerHTML = this.responseText;
+							document.getElementById("hora").selectedIndex = 0;
+							validationHora = false;
+							activarSubmit();											
+		}
+	}
+			xhttp.open("POST", "datepicker/ajax/getHorasDisponibles.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("fecha="+fecha);
+	});
+
+document.getElementById("submit").addEventListener("click", function()
+	{
+		var hora = document.getElementById("hora").value;
+		var examen = document.getElementById("examen").value;
+		var medico = document.getElementById("medico").value;
+		console.log(hora);
+		console.log(examen);
+		console.log(medico);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
+		{
+		if (this.readyState == 4 && this.status == 200) {
+
+														}
+		}
+			xhttp.open("POST", "datepicker/ajax/getFormSubmit.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("hora="+hora+"&examen="+examen+"&medico="+medico);
+		
+	});
+	
+
+document.getElementById("tecnologo-drop").addEventListener("input", function()
+	{
+		var input = document.getElementById("examen").value;
+		if (input != "base")
+			{
+				validationTecnologo = true;
+			}
+		else
+			{
+				validationTecnologo = false;
+			}
+		activarSubmit();
+	});
+
+function activarSubmit()
+	{
+		if (validationHora && validationExamen)
+			{
+				document.getElementByClassName("submit").disabled = false;
+			}
+		else
+			{
+				document.getElementByClassName("submit").disabled = true;
+			}
+	}

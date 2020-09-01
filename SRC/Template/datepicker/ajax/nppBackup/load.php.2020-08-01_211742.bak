@@ -1,0 +1,26 @@
+
+<?php
+
+require __DIR__ . '/../config/database.php';
+
+
+
+$sql = "SELECT * FROM SGL_CITAS ORDER BY id";
+$execute = $connect->prepare($query);
+$execute->execute();
+$result = $execute->fetchAll();
+
+foreach($result as $row)
+{
+ $data[] = array(
+  'id'   => $row["id"],
+  'cliente'   => $row["cliente"],
+  'tecnologo' => $row["tecnologo"],
+  'comienzo'   => $row["start_event"],
+  'final'   => $row["end_event"]
+ );
+}
+
+echo json_encode($data);
+
+?>

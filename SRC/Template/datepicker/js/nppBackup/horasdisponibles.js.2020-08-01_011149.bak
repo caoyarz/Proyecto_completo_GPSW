@@ -1,0 +1,22 @@
+document.getElementById("agenda").addEventListener("input", function()
+	{
+		var fecha = document.getElementById("agenda").value;
+		var xhttp = new XMLHttpRequest();
+		console.log(fecha);
+		xhttp.onreadystatechange = function()
+		{
+		if (this.readyState == 4 && this.status == 200) {
+							document.getElementById("hora").innerHTML = this.responseText;
+														}
+		}
+			xhttp.open("POST", "datepicker/ajax/getHorasDisponibles.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("fecha="+fecha);
+		
+	});
+	
+document.getElementById("hora").addEventListener("input", function()
+	{
+		var dateinput = document.GetElementById("hora").value;
+		if (dateinput != "" &&)
+	});

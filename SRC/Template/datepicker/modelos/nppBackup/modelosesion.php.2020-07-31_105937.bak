@@ -1,0 +1,115 @@
+<?php
+
+session_start();
+
+function bouncer()
+	{
+		if (!isset($_SESSION['rut']))
+			{
+				return TRUE;
+			}
+		return FALSE;
+	}
+
+function rutEsCliente($rut)
+	{
+		$sql = "SELECT SGL_PACIENTE_RUT AS RUT FROM SGL_PACIENTE WHERE RUT = :rut";
+		$execute = $conn->prepare($sql);
+		$execute->bindParam(':rut', $rut, PDO::PARAM_STR, 12);
+		if ($execute->execute())
+			{
+				$data = $execute->fetchAll();
+				foreach ($data as $row)
+					{
+						if (!is_null($row['RUT']))
+							{
+								return TRUE;
+							}
+					}
+				return FALSE;
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+
+function rutEsTecLab($rut)
+	{
+		$sql = "SELECT SGL_TECNICO_LABORATORIO_RUT AS RUT FROM SGL_TECNICO_LABORATORIO WHERE RUT = :rut";
+		$execute = $conn->prepare($sql);
+		$execute->bindParam(':rut', $rut, PDO::PARAM_STR, 12);
+		if ($execute->execute())
+			{
+				$data = $execute->fetchAll();
+				foreach ($data as $row)
+					{
+						if (!is_null($row['RUT']))
+							{
+								return TRUE;
+							}
+					}
+				return FALSE;
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+
+function rutEsTecnologo($rut)
+	{
+		$sql = "SELECT SGL_TECNOLOGO_RUT AS RUT FROM SGL_TECNOLOGO WHERE RUT = :rut";
+		$execute = $conn->prepare($sql);
+		$execute->bindParam(':rut', $rut, PDO::PARAM_STR, 12);
+		if ($execute->execute())
+			{
+				$data = $execute->fetchAll();
+				foreach ($data as $row)
+					{
+						if (!is_null($row['RUT']))
+							{
+								return TRUE;
+							}
+					}
+				return FALSE;
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+
+function rutEsSecretaria($rut)
+	{
+		$sql = "SELECT SGL_SECRETARIA_RUT AS RUT FROM SGL_SECRETARIA WHERE RUT = :rut";
+		$execute = $conn->prepare($sql);
+		$execute->bindParam(':rut', $rut, PDO::PARAM_STR, 12);
+		if ($execute->execute())
+			{
+				$data = $execute->fetchAll();
+				foreach ($data as $row)
+					{
+						if (!is_null($row['RUT']))
+							{
+								return TRUE;
+							}
+					}
+				return FALSE;
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+function rutEsUsuario($rut)
+	{
+		if (rutEsCliente($rut)||
+			rutEsSecretaria($rut)||
+			rutEsTecLab($rut)||
+			rutEsTecnologo($rut))
+		return TRUE;
+		else return FALSE;
+	}
+	
+function rutEsFuncionario($rut)
+	{
+		if (rutEsSecretaria($rut)||
+			rutEsTecLab($rut)||
+			rutEsTecnologo($rut))
+		return TRUE;
+		else return FALSE;
+	}
+?>

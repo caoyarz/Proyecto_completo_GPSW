@@ -1,0 +1,17 @@
+<?php
+require __DIR__ . '/../config/database.php';
+require __DIR__ . '/../modelos/modeloconfirmacion.php';
+?>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<title>Confirmar solicitudes de hora</title>
+<body>
+<?php
+echo drawTecnologoDropdown($conn);
+drawTabla($conn);
+?>
+</body>
+<footer>
+<script src="/datepicker/datepicker/js/confirmacionHoraForm.js"></script>
+</footer>

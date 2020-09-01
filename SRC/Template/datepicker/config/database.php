@@ -1,0 +1,12 @@
+<?php
+$server = 'mysqltrans.face.ubiobio.cl';
+$username = 'G1gestions2res';
+$password = 'G1s2gestion20-1';
+$database = 'G1s2gestionres_bd';
+try {
+  $conn = new PDO("mysql:host=$server;dbname=$database;", $username, $password);
+} catch (PDOException $e) {
+  die('Connection Failed: ' . $e->getMessage());
+}
+
+?>

@@ -1,0 +1,20 @@
+$(document).ready(function()
+{  
+ // function to get all records from table
+  var agenda = document.getElementByName("agenda");
+  $("#agenda").input(
+	function(){
+				var fecha = $(this).find(":selected").val();
+  $.ajax
+  ({
+		url: 'getHorasDisponibles.php',
+		data: {'fecha' : document.getElementByName("agenda")[0].value},
+		cache: false,
+		success: function(r)
+							{
+							$("#display").html(r);
+							}
+  }); 
+			})
+ 
+});

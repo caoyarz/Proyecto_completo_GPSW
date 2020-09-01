@@ -1,0 +1,31 @@
+function loadHoras()
+	{
+		var fecha = document.getElementByName("agenda")[0].value;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function()
+		{
+			xhttp.open("POST", "getHorasDisponibles.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("fname=Henry&lname=Ford");
+		}
+	}
+
+$(document).ready(function()
+{
+	document.getElementById("agenda").addEventListener("", function(){
+  $("#agenda").input(
+	function(){
+				var fecha = $(this).find(":selected").val();
+  $.ajax
+  ({
+		url: 'getHorasDisponibles.php',
+		data: {'fecha' : document.getElementByName("agenda")[0].value},
+		cache: false,
+		success: function(r)
+							{
+							$("#display").html(r);
+							}
+  }); 
+			})
+ 
+});

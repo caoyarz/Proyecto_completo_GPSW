@@ -1,0 +1,18 @@
+<script type="text/javascript">
+$(document).ready(function()
+{  
+ // function to get all records from table
+ function getHorasDisponibles(){
+  
+  $.ajax
+  ({
+   url: 'getHorasDisponibles.php',
+   data: 'fecha=',
+   cache: false,
+   success: function(r)
+   {
+    $("#display").html(r);
+   }
+  });   
+ }
+</script>

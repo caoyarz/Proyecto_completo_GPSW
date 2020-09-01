@@ -1,0 +1,52 @@
+<?php
+
+$server = 'mysqltrans.face.ubiobio.cl/';
+$username = 'G1gestions2';
+$password = 'G1s2gestion20-1';
+$database = 'G1s2gestion_bd';
+
+try {
+  $conn = new PDO("mysql:host=$server;dbname=$database;", $username, $password);
+} catch (PDOException $e) {
+  die('Connection Failed: ' . $e->getMessage());
+}	
+
+//////////////
+
+// $fecha = $_REQUEST['fecha'];
+//////WHERE DATE(SGL_CITA_HORA) = :fecha
+ $sql = "SELECT HOUR(SGL_CITA_HORA) AS hora FROM SGL_CITA ";
+ $execute = $conn->prepare($sql);
+ $execute->bindParam(':fecha', $fecha);
+	if ($execute->execute())
+		{
+			$data = $execute->fetchAll();
+		}
+		//else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+ $horastomadas = array();
+ $horasdominio = array(8,9,10,11,12,13,14,15,16,17,18);
+ var_dump($horasdominio);
+ foreach ($data as $row)
+	{
+		array_push($horastomadas,$row['hora']);
+	}
+ foreach ($horasdominio as $horadom)
+	{
+		foreach ($horastomadas as $horataken)
+		{
+			if ($horadom == $horataken)
+				unset($horasdominio[$horadom]);
+		}
+	}
+	if(!empty($horasdominio))
+	{
+		$opcionesHora = "";
+		foreach ($horasdominio as $hora) 
+			{
+		$opcionesHora .= "<option value='" . 
+						$hora['id'] . "' title='". 
+						$row['tooltip'] . "'>" . 
+						$row['examen'] . "</option> \n";
+			}
+	}
+ ?>

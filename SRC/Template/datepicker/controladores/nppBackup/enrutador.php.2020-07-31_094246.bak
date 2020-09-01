@@ -1,0 +1,50 @@
+<?php
+require('validasesion.php');
+
+//----------------Funciones de redirección---------------//
+function goLogin()
+	{
+		echo '<script>alert("Acceso denegado. Por favor, autentifiquese.")</script>'; 
+		//enviamos al usuario a la pantalla de login
+	}
+function goCalendario()
+	{
+		//Invocar vista de funcionarios
+	}
+function goSolicitud()
+	{
+		//Invocar vista de clientes
+	}
+function goSelector()
+	{
+		//Invocar vista de selector
+	}
+//------------------------Rutina de enrutador-------------//
+if (bouncer())
+	{
+		goLogin();
+	}
+	
+else
+	{
+		if (rutEsFuncionario())
+			{
+				goCalendario();
+			}
+		if (rutEsCliente()&&!rutEsFuncionario())
+			{
+				goSolicitud();
+			}
+		if (rutEsCliente()&&rutEsFuncionario())
+			{
+				goSelector();
+			}
+			
+		//Si llegamos a este punto algo incomodo está sucediendo!
+		//handlear con alguna vista de error crítico.
+		die("ERROR INESPERADO: Naturaleza del usuario indefinida");
+	}
+
+
+	
+?>

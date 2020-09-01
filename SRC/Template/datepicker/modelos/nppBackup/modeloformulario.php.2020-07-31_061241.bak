@@ -1,0 +1,11 @@
+<?php
+
+function getExamenes()
+	{
+		$sql = "SELECT SGL_EXAMEN_IDENTIFICADOR AS id, 
+				SGL_EXAMEN_INSTRUCCIONES AS tooltip, 
+				SGL_EXAMEN_NOMBRE AS examen 
+				FROM SGL_EXAMEN";
+		$execute = $conn->prepare($sql);
+	}
+?>

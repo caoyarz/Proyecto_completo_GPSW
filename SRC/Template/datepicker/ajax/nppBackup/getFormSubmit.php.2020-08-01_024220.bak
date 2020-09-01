@@ -1,0 +1,43 @@
+<?php
+require __DIR__ . '/../config/database.php';
+require __DIR__ . '/../modelos/modelosesion.php';
+
+$examen = $_REQUEST['examen'];
+$hora = $_REQUEST['hora'];
+$medico = $_REQUEST['medico'];
+
+if (bouncer())
+	{
+		header("location: index.php");
+	}
+	
+else
+	
+	{
+		$paciente = $_SESSION['user_id'];
+	}
+	
+function insert($conn)
+	{	
+		$sql = "INSERT INTO SGL_CITA(SGL_PACIENTE_RUT,SGL_CITA_HORA,SGL_CITA_MEDICO_SOLICITANTE,SGL_EXAMEN_IDENTIFICADOR)
+				VALUES ('".$paciente."',".$hora.",'".$medico."',".$examen.");";	
+		$execute = $conn->prepare($sql);
+		$execute->bindParam(':fecha', $fecha);
+
+		if ($execute->execute())
+			{
+				$datahorastomadas = $execute->fetchAll();
+			}
+	}
+	//Dejo este espacio por si es necesario validaciones.
+	insert($conn);
+
+	//generamos un html de respuesta.
+	echo '<script language="javascript">';
+	echo 'alert("Fecha solicitada con exito.")';
+	echo '</script>';
+	
+	header("location: index.php");
+
+
+?>

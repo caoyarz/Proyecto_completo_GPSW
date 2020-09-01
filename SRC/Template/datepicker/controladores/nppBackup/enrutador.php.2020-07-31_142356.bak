@@ -1,0 +1,51 @@
+<?php
+require('validasesion.php');
+
+//----------------Funciones de redirección---------------//
+function goLogin()
+	{
+		echo '<script>alert("Acceso denegado. Por favor, autentifiquese.")</script>';
+		header ("location: http://146.83.198.35:1053/SRC/index.php");
+		//enviamos al usuario a la pantalla de login
+	}
+function goCalendario()
+	{
+		headaer("location: http://146.83.198.35:1053/SRC/datefuncionario.php"
+	}
+function goSolicitud()
+	{
+		header("location: http://146.83.198.35:1053/SRC/datecliente.php");
+	}
+function goSelector()
+	{
+		header("location: datefuncionario.php");
+	}
+//------------------------Rutina de enrutador-------------//
+if (bouncer())
+	{
+		goLogin();
+	}
+	
+else
+	{
+		if (rutEsFuncionario())
+			{
+				goCalendario();
+			}
+		if (rutEsCliente()&&!rutEsFuncionario())
+			{
+				goSolicitud();
+			}
+		if (rutEsCliente()&&rutEsFuncionario())
+			{
+				goSelector();
+			}
+			
+		//Si llegamos a este punto algo incomodo está sucediendo!
+		//handlear con alguna vista de error crítico.
+		die("ERROR INESPERADO: Naturaleza del usuario indefinida");
+	}
+
+
+	
+?>

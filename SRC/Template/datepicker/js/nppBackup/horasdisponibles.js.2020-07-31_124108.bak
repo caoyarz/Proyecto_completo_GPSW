@@ -1,0 +1,18 @@
+$(document).ready(function()
+{  
+  $("#agenda").input(
+	function(){
+				var fecha = $(this).find(":selected").val();
+  $.ajax
+  ({
+		url: 'getHorasDisponibles.php',
+		data: {'fecha' : document.getElementByName("agenda")[0].value},
+		cache: false,
+		success: function(r)
+							{
+							$("#display").html(r);
+							}
+  }); 
+			})
+ 
+});

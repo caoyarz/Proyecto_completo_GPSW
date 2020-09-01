@@ -1,0 +1,57 @@
+<?php
+
+public function getExamenes()
+	{
+		$sql = "SELECT SGL_EXAMEN_IDENTIFICADOR AS id, 
+				SGL_EXAMEN_INSTRUCCIONES AS tooltip, 
+				SGL_EXAMEN_NOMBRE AS examen 
+				FROM SGL_EXAMEN";
+		$execute = $conn->prepare($sql);
+		if ($execute->execute())
+			{
+				return $execute->fetchAll();
+			}
+		else dieHandler("Error crítico de conexión a la base de datos",$execute->error);
+	}
+
+public function drawExamenOpciones($data)
+	{
+		$OpcionesHTML = "";
+		foreach ($data as $row) 
+			{
+		$OpcionesHTML .= "<option value='" . 
+						$row['id'] . "' title='". 
+						$row['tooltip'] . "'>" . 
+						$row['examen'] . "</option> \n"
+			}
+		return $OpcionesHTML;
+	}
+
+
+	
+public function drawExamenDropdown()
+	{
+		$DropdownHTML = "";
+		$DropdownHTML .= '<label for="examen">Examen:</label> \n
+						 <select id="examen-dropdown" name="examen"> \n';
+		$DropdownHTML .='<option selected value="base">Seleccione examen deseado...</option>';
+		$DropdownHTML .= drawExamenOpciones(getExamenes());
+		$DropdownHTML .= '\n </select>';
+		return $DropdownHTML;
+	}
+
+public function drawDatepicker()
+	{
+//<input type="date" name="cumpleanios" step="1" min="2013-01-01" max="2013-12-31" value="<?php echo date("Y-m-d");">
+		$DateHTML = "";
+		$DateHTML .= '<label for="agenda">Consultar disponibilidad de fecha deseada</label> \n';
+		$DateHTML .= '<input type ="date" ';
+		$DateHTML .= 'name="agenda" ';
+		$DateHTML .= 'step="1" ';
+		$DateHTML .= 'min="';
+		$DateHTML .= echo date('Y-m-d',time());
+		$DateHTML .= '" value="';
+		$DateHTML .= echo date('Y-m-d',time());
+		$DateHTML .= '">'
+	}
+?>

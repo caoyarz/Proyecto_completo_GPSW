@@ -1,0 +1,71 @@
+<?php
+$server = 'mysqltrans.face.ubiobio.cl';
+$username = 'G1gestions2';
+$password = 'G1s2gestion20-1';
+$database = 'G1s2gestion_bd';
+try {
+  $con = new PDO("mysql:host=$server;dbname=$database;", $username, $password);
+} catch (PDOException $e) {
+  die('Connection Failed: ' . $e->getMessage());
+}
+
+// Obteniendo registro de HORAS ocupadas
+$sql = "SELECT HOUR(SGL_CITA_HORA) AS hora, SGL_CITA_ESTADO AS estado 
+		FROM SGL_CITA 
+		WHERE DATE(SGL_CITA_HORA) = :fecha AND estado IS NOT NULL;";
+$exechoras = $con->prepare($sql);
+var_dump ($exechoras);
+$exechoras->bindParam(':fecha', $fecha);
+	if ($exechoras->execute())
+		{
+			$datahorastomadas = $execute->fetchAll();
+		}
+	else 
+		{
+			
+		}
+	
+ //inicializando arrays para guardar los resultados, también inicializada una variable de dominio, con posibles horas a tomar.
+ $horastomadas = array();
+ $horasdominio = array(8,9,10,11,12,13,14,15,16,17,18);
+ $horasdisponibles = array();
+ 
+ 
+ //Push de resultado de las consultas a los array.
+ foreach ($datahorastomadas as $row)
+	{
+		array_push($horastomadas,$row['hora']);
+	}
+
+ //Buscamos por ocurrencias de horas libres que no esten en el array de tomadas pero si en dominio. Push a un array.
+ foreach ($horasdominio as $horadom)
+	{
+		$flag = true;
+		foreach ($horastomadas as $horataken)
+		{
+			if ($horadom == $horataken)
+				{
+					$flag = false;
+				}
+		}
+		if ($flag) array_push($horasdisponibles,$horadom);
+	}
+	
+	//Si existen ocurrencias entonces creamos un string para generar un documento html de respuesta.
+	if(!empty($horasdisponibles))
+	{
+		$opcionesHora = "<option value=''>--</option>";
+		foreach ($horasdisponibles as $hora) 
+			{
+		$opcionesHora .= '<option value="';
+		$opcionesHora .= $fecha." ".strval($hora).":00:00";
+		$opcionesHora .= '">';
+		$opcionesHora .= strval($hora) . ":00";
+		$opcionesHora .= "</option> \n";
+			}
+	}
+	
+	//generamos un html de respuesta.
+	echo $opcionesHora;
+
+?>
